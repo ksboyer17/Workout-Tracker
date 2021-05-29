@@ -5,7 +5,7 @@ const Workout = require("../models/Workout")
 //get find Workout
 
 router.get("/api/workouts", function (req, res){
-    Workout.find()
+    Workout.find().sort({day:"desc"}).limit(7)
     .then (data => res.json(data))
     .catch(err => {
         res.json(err)
