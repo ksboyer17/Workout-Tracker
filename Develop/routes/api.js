@@ -14,10 +14,35 @@ router.get("/api/workouts", function (req, res){
             }
         }
 
-    ]).then()
+    ]).then((allWorkouts)=> {
+        res.json(allWorkouts)
+    })
+    .catch(err => {
+        res.json(err)
+    })
 })
 
-router.get("/api/:id", ({body,params}, res)=>{
+router.get("/api/workouts", function (req, res){
+    Workout.aggregate([
+        {
+            $addFields:{
+                totalWeight: {
+                    $sum: '$exercises.weight'
+                }
+            }
+        }
+
+    ]).then((allWorkouts)=> {
+        res.json(allWorkouts)
+    })
+    .catch(err => {
+        res.json(err)
+    })
+})
+
+
+
+router.get("/api/workouts/:id", ({body,params}, res)=>{
     Workout.findOne(
        { where: {_id:params.id}},
     ). then (data => res.json(data))
@@ -28,7 +53,7 @@ router.get("/api/:id", ({body,params}, res)=>{
 
 
 //post create Workout
-router.post("/", function (req, res){
+router.post("/api/workouts", function (req, res){
     Workout.create(req.body)
     .then(data => res.json(data))
     .catch(err => {
@@ -36,14 +61,29 @@ router.post("/", function (req, res){
     })
 })
 //put route findbyidandupdate
-router.put("/:id", ({body,params}, res)=>{
+// router.put("api/workouts/:id", ({body,params}, res)=>{
+//     Workout.findByIdAndUpdate(
+//        { where: {id:params.id}},
+//        body
+//     ). then (data => res.json(data))
+//     .catch(err => {
+//         res.json(err)
+//     })
+// })
+
+
+router.put("api/workouts/:id", ({body,params}, res)=>{
+    console.log("I am the body",body);
+    console.log("I am the params",params);
     Workout.findByIdAndUpdate(
-       { where: {id:params.id}},
-       body
-    ). then (data => res.json(data))
+        params.id,
+        {$push: {exercises:body}},
+        {new:true,runValidators:true}
+    ).then (data => res.json(data))
     .catch(err => {
         res.json(err)
     })
 })
+
 
 module.exports = router;

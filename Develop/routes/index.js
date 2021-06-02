@@ -4,6 +4,6 @@ const api = require("./api");
 
 
 router.use("/",views);
-router.use("/api/workouts",api);
+router.use("/",api);
 
 module.exports = router;

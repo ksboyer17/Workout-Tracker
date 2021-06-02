@@ -18,22 +18,24 @@ const workoutSchema = new Schema({
       }
     ]
   },
-  {
-    toJSON:{
-      virtuals: true
-  }});
+  // {
+  //   // toJSON:{
+  //   //   virtuals: true
+  // }
+// }
+);
 
-  workoutSchema.virtual("TotalDuration").get(function(){
-    return this.exercises.reduce(function(sum,exercise){
-      return sum + exercise.duration
-    },0)
-  })
+  // workoutSchema.virtual("TotalDuration").get(function(){
+  //   return this.exercises.reduce(function(sum,exercise){
+  //     return sum + exercise.duration
+  //   },0)
+  // })
 
-  workoutSchema.virtual("TotalWeight").get(function(){
-    return this.exercises.reduce(function(sum,exercise){
-      return sum + exercise.weight
-    },0)
-  })
+  // workoutSchema.virtual("TotalWeight").get(function(){
+  //   return this.exercises.reduce(function(sum,exercise){
+  //     return sum + exercise.weight
+  //   },0)
+  // })
 
   const Workout = mongoose.model('Workout', workoutSchema);
 
