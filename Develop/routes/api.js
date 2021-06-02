@@ -5,14 +5,19 @@ const Workout = require("../models/Workout")
 //get find Workout
 
 router.get("/api/workouts", function (req, res){
-    Workout.find().sort({day:"desc"}).limit(7)
-    .then (data => res.json(data))
-    .catch(err => {
-        res.json(err)
-    })
+    Workout.aggregate([
+        {
+            $addFields:{
+                totalDuration: {
+                    $sum: '$exercises.duration'
+                }
+            }
+        }
+
+    ]).then()
 })
 
-router.get("/api/workouts/:id", ({body,params}, res)=>{
+router.get("/api/:id", ({body,params}, res)=>{
     Workout.findOne(
        { where: {_id:params.id}},
     ). then (data => res.json(data))
@@ -23,7 +28,7 @@ router.get("/api/workouts/:id", ({body,params}, res)=>{
 
 
 //post create Workout
-router.post("/api/workouts", function (req, res){
+router.post("/", function (req, res){
     Workout.create(req.body)
     .then(data => res.json(data))
     .catch(err => {
@@ -31,8 +36,8 @@ router.post("/api/workouts", function (req, res){
     })
 })
 //put route findbyidandupdate
-router.put("/api/workouts/:id", ({body,params}, res)=>{
-    Workout.findbyidandupdate(
+router.put("/:id", ({body,params}, res)=>{
+    Workout.findByIdAndUpdate(
        { where: {id:params.id}},
        body
     ). then (data => res.json(data))
