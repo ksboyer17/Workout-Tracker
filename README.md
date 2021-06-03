@@ -42,6 +42,8 @@
  No test have been run for this project at the moment.
 
  # Screenshots
+![Screenshot of Weather Application](https://github.com/ksboyer17/Workout-Tracker/blob/main/Develop/imgs/Screen%20Shot%202021-06-03%20at%205.43.08%20PM.png?raw=true)
+![Screenshot of Weather Application](https://github.com/ksboyer17/Workout-Tracker/blob/main/Develop/imgs/Screen%20Shot%202021-06-03%20at%205.43.33%20PM.png?raw=true)
 
 
  # For Questions
