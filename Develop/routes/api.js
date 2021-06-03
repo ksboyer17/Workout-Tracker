@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Workout = require("../models/Workout")
+const Workout = require("../models/workout")
 
 
 //get find Workout
@@ -28,6 +28,25 @@ router.get("/api/workouts", function (req, res){
             $addFields:{
                 totalWeight: {
                     $sum: '$exercises.weight'
+                }
+            }
+        }
+
+    ]).then((allWorkouts)=> {
+        res.json(allWorkouts)
+    })
+    .catch(err => {
+        res.json(err)
+    })
+})
+
+
+router.get("/api/workouts/range", function (req, res){
+    Workout.aggregate([
+        {
+            $addFields:{
+                totalDuration: {
+                    $sum: '$exercises.duration'
                 }
             }
         }
@@ -72,7 +91,7 @@ router.post("/api/workouts", function (req, res){
 // })
 
 
-router.put("api/workouts/:id", ({body,params}, res)=>{
+router.put("/api/workouts/:id", ({body,params}, res)=>{
     console.log("I am the body",body);
     console.log("I am the params",params);
     Workout.findByIdAndUpdate(
